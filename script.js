@@ -1,52 +1,51 @@
-document.addEventListener("DOMContentLoaded", () => {
 
-    const images = document.querySelectorAll(".carousel img");
-    const prevBtn = document.querySelector(".prev");
-    const nextBtn = document.querySelector(".next");
 
-    let current = 0;
+const counters = document.querySelectorAll(".counter");
 
-    function updateCarousel() {
+const observer = new IntersectionObserver((entries) => {
 
-        images.forEach(img => img.classList.remove("active"));
+    entries.forEach(entry => {
 
-        images[current].classList.add("active");
-    }
+        if(entry.isIntersecting){
 
-    nextBtn.addEventListener("click", () => {
-        current = (current + 1) % images.length;
-        updateCarousel();
+            const counter = entry.target;
+            const target = +counter.dataset.target;
+
+            let count = 0;
+
+            const speed = target / 80;
+
+            const updateCount = () =>{
+
+                count += speed;
+
+                if(count < target){
+
+                    counter.innerText = Math.floor(count) + "+";
+                    requestAnimationFrame(updateCount);
+
+                }else{
+
+                    counter.innerText = target + "+";
+                }
+            }
+
+            updateCount();
+
+            observer.unobserve(counter);
+
+        }
+
     });
 
-    prevBtn.addEventListener("click", () => {
-        current = (current - 1 + images.length) % images.length;
-        updateCarousel();
-    });
-
-    updateCarousel();
-
+},{
+    threshold:0.5
 });
 
-const testimonials = document.querySelectorAll(".testimonial");
-const dots = document.querySelectorAll(".dot");
-
-let current = 0;
-
-function showSlide(index){
-
-    testimonials.forEach(card => card.classList.remove("active"));
-    dots.forEach(dot => dot.classList.remove("active"));
-
-    testimonials[index].classList.add("active");
-    dots[index].classList.add("active");
-}
-
-document.querySelector(".right").addEventListener("click", () => {
-    current = (current + 1) % testimonials.length;
-    showSlide(current);
+counters.forEach(counter=>{
+    observer.observe(counter);
 });
 
-document.querySelector(".left").addEventListener("click", () => {
-    current = (current - 1 + testimonials.length) % testimonials.length;
-    showSlide(current);
-});
+
+
+
