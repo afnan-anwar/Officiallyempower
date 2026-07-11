@@ -1,4 +1,74 @@
 
+const cards = document.querySelectorAll(".carousel a");
+const next = document.querySelector(".next");
+
+let order = ["active", "second", "third", "fourth", "fifth"];
+
+function updateCards(){
+
+    cards.forEach((card, index)=>{
+
+        card.className = "";
+        card.classList.add(order[index]);
+
+    });
+
+}
+
+updateCards();
+
+next.addEventListener("click", ()=>{
+
+    // Move first class to the end
+    order.push(order.shift());
+
+    updateCards();
+
+});
+
+const prev = document.querySelector(".prev");
+
+prev.addEventListener("click", ()=>{
+
+    order.unshift(order.pop());
+
+    updateCards();
+
+});
+
+const cards = document.querySelectorAll(".card");
+
+const next = document.querySelector(".next");
+const prev = document.querySelector(".prev");
+
+let order = ["active","second","third"];
+
+function updateCards(){
+
+    cards.forEach((card,index)=>{
+        card.className = "card";
+        card.classList.add(order[index]);
+    });
+
+}
+
+updateCards();
+
+next.addEventListener("click",()=>{
+
+    order.push(order.shift());
+
+    updateCards();
+
+});
+
+prev.addEventListener("click",()=>{
+
+    order.unshift(order.pop());
+
+    updateCards();
+
+});
 
 const counters = document.querySelectorAll(".counter");
 
